@@ -27,15 +27,15 @@
 						type="text"
 					/>
 				</div>
-				<div class="w-full grid lg:grid-cols-3 gap-6">
+				<div class="w-full grid lg:grid-cols-2 gap-x-6 gap-y-2">
 					<div>
-						<select name="size" bind:value={pizza.size}>
+						<select class="w-full" name="size" bind:value={pizza.size}>
 							{#each sizes as size}
 								<option value={size}>{size}&ldquo;</option>
 							{/each}
 						</select>
 					</div>
-					<div class="flex gap-1 items-center lg:col-span-2">
+					<div class="flex gap-1 items-center">
 						<span class="text-gray-600 font-light" style={`scale: 1 1.35`}>$</span>
 						<input
 							bind:value={pizza.price}
