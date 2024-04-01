@@ -10,6 +10,10 @@
 	const squareInchPerPerson = 40;
 </script>
 
+<svelte:head>
+	<title>Pizza Size Price Calculator</title>
+</svelte:head>
+
 <h1 class="text-3xl lg:text-5xl font-bold text-white lg:text-center lg:py-8">
 	Pizza Size Price Calculator
 </h1>
