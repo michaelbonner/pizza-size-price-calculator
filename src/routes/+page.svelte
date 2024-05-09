@@ -1,5 +1,5 @@
 <script lang="ts">
-	const sizes = ['10', '12', '14', '16', '18', '20'];
+	const sizes = ['10', '12', '14', '16', '18', '20', '22', '24', '26', '28', '30'];
 
 	let pizzas = [
 		{ name: 'Dominos Medium', size: '12', price: 6.99 },
