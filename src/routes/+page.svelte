@@ -77,7 +77,7 @@
 				</div>
 				<div class="flex justify-end">
 					<button
-						class="py-2 px-4 -mr-4 -mb-4 text-red-700 rounded transition-colors hover:text-white hover:bg-red-600"
+						class="py-2 px-4 -mr-4 -mb-4 text-red-700 rounded-sm transition-colors hover:text-white hover:bg-red-600"
 						on:click={() => {
 							pizzas = pizzas.filter((p) => p !== pizza);
 						}}
