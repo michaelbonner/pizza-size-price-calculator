@@ -9,8 +9,10 @@
 		{@render children?.()}
 	</div>
 </main>
-<footer class="text-center bg-white/80 p-8 rounded-lg max-w-7xl mx-auto my-8">
-	<p>
-		Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
-	</p>
+<footer class="m-8">
+	<div class="text-center bg-white/70 backdrop-blur-sm p-8 rounded-lg max-w-7xl lg:mx-auto">
+		<p>
+			Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
+		</p>
+	</div>
 </footer>

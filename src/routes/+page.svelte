@@ -24,13 +24,13 @@
 	</p>
 </div>
 
-<div class="grid gap-8 py-8 w-full lg:grid-cols-3 mt-6">
+<div class="grid gap-8 py-8 w-full lg:grid-cols-3 mt-6 text-amber-900">
 	{#each pizzas as pizza}
-		<div class="flex items-center p-3 bg-amber-300 rounded-xl">
+		<div class="flex items-center p-3 bg-amber-300 rounded-xl shadow-xs">
 			<div class="grid gap-2 py-8 px-8 w-full bg-white rounded-lg">
 				<div>
 					<input
-						class="w-full"
+						class="w-full border-amber-900 rounded"
 						bind:value={pizza.name}
 						name="name"
 						placeholder="Name"
@@ -39,17 +39,17 @@
 				</div>
 				<div class="grid gap-y-2 gap-x-6 w-full lg:grid-cols-2">
 					<div>
-						<select class="w-full" name="size" bind:value={pizza.size}>
+						<select class="w-full border-amber-900 rounded" name="size" bind:value={pizza.size}>
 							{#each sizes as size}
 								<option value={size}>{size}&ldquo;</option>
 							{/each}
 						</select>
 					</div>
 					<div class="flex gap-1 items-center">
-						<span class="font-light text-gray-600" style={`scale: 1 1.35`}>$</span>
+						<span class="font-light text-amber-900/60" style={`scale: 1 1.35`}>$</span>
 						<input
 							bind:value={pizza.price}
-							class="w-full"
+							class="w-full border-amber-900 rounded"
 							min="0"
 							name="price"
 							placeholder="Price"
@@ -95,7 +95,7 @@
 		</div>
 	{/each}
 
-	<div class="flex items-stretch p-3 bg-amber-300 rounded-xl">
+	<div class="flex items-stretch p-3 bg-amber-300 rounded-xl shadow-xs">
 		<button
 			class="flex justify-center items-center p-8 w-full h-full text-3xl font-bold text-amber-800 bg-amber-50 rounded-lg transition-colors hover:bg-amber-200 min-h-[356px]"
 			onclick={() => {

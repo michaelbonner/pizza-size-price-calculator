@@ -19,8 +19,16 @@
 	::file-selector-button {
 		border-color: var(--color-gray-200, currentColor);
 	}
-}
 
-body {
-	@apply bg-amber-100;
+	body {
+		@apply bg-amber-100;
+		background-image: url('/pizza-bg.svg');
+		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+
+	button {
+		@apply cursor-pointer;
+	}
 }
