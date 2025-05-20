@@ -14,14 +14,20 @@
 	<title>Pizza Size Price Calculator</title>
 </svelte:head>
 
-<h1 class="text-3xl font-bold text-white lg:py-8 lg:text-5xl lg:text-center">
-	Pizza Size Price Calculator
-</h1>
+<div class="prose prose-lg mx-auto">
+	<h1 class="text-amber-900 lg:text-center text-shadow-sm text-shadow-amber-400">
+		<span aria-hidden="true" class="hidden lg:inline">🍕</span> Pizza Size Price Calculator
+	</h1>
+	<p class="lg:text-center text-amber-800">
+		Have you ever wondered if ordering two medium pizzas is cheaper than getting one large? Or
+		whether Costco's pizza is a good deal? Now you don't have to wonder.
+	</p>
+</div>
 
-<div class="grid gap-8 py-8 w-full lg:grid-cols-3">
+<div class="grid gap-8 py-8 w-full lg:grid-cols-3 mt-6">
 	{#each pizzas as pizza}
-		<div class="flex items-center p-3 bg-yellow-500 rounded-3xl">
-			<div class="grid gap-2 py-8 px-8 w-full bg-white rounded-2xl">
+		<div class="flex items-center p-3 bg-amber-300 rounded-xl">
+			<div class="grid gap-2 py-8 px-8 w-full bg-white rounded-lg">
 				<div>
 					<input
 						class="w-full"
@@ -89,9 +95,9 @@
 		</div>
 	{/each}
 
-	<div class="flex items-stretch p-3 bg-yellow-500 rounded-3xl">
+	<div class="flex items-stretch p-3 bg-amber-300 rounded-xl">
 		<button
-			class="flex justify-center items-center p-8 w-full h-full text-3xl font-bold text-yellow-800 bg-yellow-50 rounded-2xl transition-colors hover:bg-yellow-200 min-h-[356px]"
+			class="flex justify-center items-center p-8 w-full h-full text-3xl font-bold text-amber-800 bg-amber-50 rounded-lg transition-colors hover:bg-amber-200 min-h-[356px]"
 			onclick={() => {
 				pizzas = [...pizzas, { name: '', size: '14', price: 0 }];
 			}}
