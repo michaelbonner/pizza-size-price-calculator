@@ -1,11 +1,11 @@
 <script lang="ts">
 	const sizes = ['10', '12', '14', '16', '17', '18', '19', '20', '22', '24', '26', '28', '30'];
 
-	let pizzas = [
+	let pizzas = $state([
 		{ name: 'Dominos Medium', size: '12', price: 6.99 },
 		{ name: 'Little Caesars', size: '14', price: 6.99 },
 		{ name: 'Costco', size: '18', price: 9.95 }
-	];
+	]);
 
 	const squareInchPerPerson = 40;
 </script>
@@ -78,7 +78,7 @@
 				<div class="flex justify-end">
 					<button
 						class="py-2 px-4 -mr-4 -mb-4 text-red-700 rounded-sm transition-colors hover:text-white hover:bg-red-600"
-						on:click={() => {
+						onclick={() => {
 							pizzas = pizzas.filter((p) => p !== pizza);
 						}}
 					>
@@ -92,7 +92,7 @@
 	<div class="flex items-stretch p-3 bg-yellow-500 rounded-3xl">
 		<button
 			class="flex justify-center items-center p-8 w-full h-full text-3xl font-bold text-yellow-800 bg-yellow-50 rounded-2xl transition-colors hover:bg-yellow-200 min-h-[356px]"
-			on:click={() => {
+			onclick={() => {
 				pizzas = [...pizzas, { name: '', size: '14', price: 0 }];
 			}}
 		>
