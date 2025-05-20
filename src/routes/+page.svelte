@@ -25,7 +25,7 @@
 </div>
 
 <div class="grid gap-8 py-8 w-full lg:grid-cols-3 mt-6 text-amber-900">
-	{#each pizzas as pizza, index}
+	{#each pizzas as pizza, index (pizza.name)}
 		<div class="flex items-center p-3 bg-amber-300 rounded-xl shadow-xs">
 			<div class="grid gap-2 py-8 px-8 w-full bg-white rounded-lg">
 				<div>
@@ -48,13 +48,13 @@
 							name="size"
 							bind:value={pizza.size}
 						>
-							{#each sizes as size}
+							{#each sizes as size (size)}
 								<option value={size}>{size}&ldquo;</option>
 							{/each}
 						</select>
 					</div>
 					<div class="flex gap-1 items-center">
-						<span class="font-light text-amber-900/60" style={`scale: 1 1.35`}>$</span>
+						<span class="font-light text-amber-900/60" style="scale: 1 1.35">$</span>
 						<label for="price-{index}" class="sr-only">Price</label>
 						<input
 							id="price-{index}"
