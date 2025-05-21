@@ -26,15 +26,15 @@
 	</p>
 </div>
 
-<div class="grid gap-8 py-8 w-full lg:grid-cols-3 mt-6 text-amber-900">
-	{#each pizzas as pizza, index (pizza.name)}
-		<div class="flex items-center p-3 bg-amber-300 rounded-xl shadow-xs">
-			<div class="grid gap-2 py-8 px-8 w-full bg-white rounded-lg">
+<div class="grid gap-y-8 gap-x-4 xl:gap-8 py-8 w-full lg:grid-cols-3 mt-6 text-amber-900">
+	{#each pizzas as pizza, index (index)}
+		<div class="flex items-center p-3 bg-amber-500/30 rounded-xl backdrop-blur-sm shadow-xs">
+			<div class="grid gap-2 py-8 px-8 w-full bg-white/80 rounded-lg">
 				<div>
 					<label for="name-{index}" class="sr-only">Name</label>
 					<input
 						id="name-{index}"
-						class="w-full border-amber-900 rounded"
+						class="w-full border-amber-900/60 rounded-md"
 						bind:value={pizza.name}
 						name="name"
 						placeholder="Name"
@@ -46,7 +46,7 @@
 						<label for="size-{index}" class="sr-only">Size</label>
 						<select
 							id="size-{index}"
-							class="w-full border-amber-900 rounded"
+							class="w-full border-amber-900/60 rounded-md"
 							name="size"
 							bind:value={pizza.size}
 						>
@@ -61,7 +61,7 @@
 						<input
 							id="price-{index}"
 							bind:value={pizza.price}
-							class="w-full border-amber-900 rounded"
+							class="w-full border-amber-900/60 rounded-md"
 							min="0"
 							name="price"
 							placeholder="Price"
@@ -107,14 +107,21 @@
 		</div>
 	{/each}
 
-	<div class="flex items-stretch p-3 bg-amber-300 rounded-xl shadow-xs">
+	<div
+		class="flex items-center p-3 bg-amber-500/30 rounded-xl backdrop-blur-sm shadow-xs justify-center min-h-[356px] relative hover:bg-amber-500/40 transition-colors"
+	>
 		<button
-			class="flex justify-center items-center p-8 w-full h-full text-3xl font-bold text-amber-800 bg-amber-50 rounded-lg transition-colors hover:bg-amber-200 min-h-[356px]"
+			class="size-24 rounded-full bg-red-900/90 flex justify-center items-center p-8 text-3xl lg:text-7xl font-light text-red-100 transition-colors hover:bg-red-800 group"
 			onclick={() => {
 				pizzas = [...pizzas, { name: '', size: '14', price: 0 }];
 			}}
 		>
-			+
+			<span
+				class="-translate-y-1 transition-transform group-hover:rotate-360 group-hover:-translate-y-1.5 group-hover:scale-110"
+				>+</span
+			>
+			<span class="sr-only">Add pizza</span>
+			<span class="absolute inset-0"></span>
 		</button>
 	</div>
 </div>
