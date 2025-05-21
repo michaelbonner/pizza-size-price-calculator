@@ -14,8 +14,10 @@
 	<title>Pizza Size Price Calculator</title>
 </svelte:head>
 
-<div class="prose prose-lg mx-auto">
-	<h1 class="text-amber-900 lg:text-center text-shadow-sm text-shadow-amber-400">
+<div class="prose prose-lg lg:mx-auto lg:py-16">
+	<h1
+		class="text-amber-900 lg:text-center text-shadow-sm text-shadow-amber-400 text-4xl lg:text-5xl"
+	>
 		<span aria-hidden="true" class="hidden lg:inline">🍕</span> Pizza Size Price Calculator
 	</h1>
 	<p class="lg:text-center text-amber-800">
