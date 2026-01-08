@@ -45,6 +45,8 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltejs/adapter-vercel": "^6.3.0"
+		"@sveltejs/adapter-vercel": "^6.3.0",
+		"@tabler/icons-svelte": "^3.36.1",
+		"clsx": "^2.1.1"
 	}
 }
