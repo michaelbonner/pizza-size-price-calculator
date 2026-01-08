@@ -11,7 +11,7 @@
 		{ name: 'Costco', size: '18', price: 9.95 }
 	]);
 
-	const squareInchPerPerson = 40;
+	let squareInchPerPerson = $state(40);
 
 	type Pizza = (typeof pizzas)[number];
 	type SortKey =
@@ -338,5 +338,51 @@
 		>
 			+ Add Pizza
 		</button>
+	</div>
+</div>
+
+<div class="bg-white/40 rounded-xl shadow-lg backdrop-blur-lg p-6 mt-6">
+	<div class="flex flex-col gap-4">
+		<div>
+			<label for="squareInchPerPerson" class="block text-amber-900 font-semibold mb-2">
+				Square Inches per Person
+			</label>
+			<p class="text-sm text-amber-800 mb-3">
+				Adjust how much pizza each person typically eats. A typical adult serving is 40-50 square
+				inches.
+			</p>
+			<div class="flex flex-wrap gap-2 items-center">
+				<input
+					id="squareInchPerPerson"
+					type="number"
+					bind:value={squareInchPerPerson}
+					min="10"
+					max="100"
+					step="5"
+					class="border-amber-900/60 rounded-md px-3 py-2 w-24"
+				/>
+				<span class="text-amber-900">in²</span>
+				<div class="flex gap-2 ml-4 flex-wrap">
+					<button
+						onclick={() => (squareInchPerPerson = 30)}
+						class="px-3 py-1 bg-amber-500/30 text-amber-900 rounded-md hover:bg-amber-500/50 transition-colors text-sm"
+					>
+						Light (30)
+					</button>
+					<button
+						onclick={() => (squareInchPerPerson = 40)}
+						class="px-3 py-1 bg-amber-500/30 text-amber-900 rounded-md hover:bg-amber-500/50 transition-colors text-sm"
+					>
+						Normal (40)
+					</button>
+					<button
+						onclick={() => (squareInchPerPerson = 50)}
+						class="px-3 py-1 bg-amber-500/30 text-amber-900 rounded-md hover:bg-amber-500/50 transition-colors text-sm"
+					>
+						Hungry (50)
+					</button>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>
