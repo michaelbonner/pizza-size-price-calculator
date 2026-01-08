@@ -35,10 +35,8 @@
 		{@render children?.()}
 	</div>
 </main>
-<footer class="m-8">
-	<div class="text-center bg-white/70 backdrop-blur-sm p-8 rounded-lg max-w-7xl lg:mx-auto">
-		<p>
-			Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
-		</p>
-	</div>
+<footer class="m-8 text-center text-amber-800">
+	<p>
+		Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
+	</p>
 </footer>
