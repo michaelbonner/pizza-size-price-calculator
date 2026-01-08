@@ -1,13 +1,89 @@
 <script lang="ts">
+	import DollarSign from '$lib/components/DollarSign.svelte';
+	import { IconArrowDown, IconArrowsSort, IconArrowUp } from '@tabler/icons-svelte';
+	import { clsx } from 'clsx';
+
 	const sizes = ['10', '12', '14', '16', '17', '18', '19', '20', '22', '24', '26', '28', '30'];
 
 	let pizzas = $state([
 		{ name: 'Dominos Medium', size: '12', price: 6.99 },
-		{ name: 'Little Caesars', size: '14', price: 6.99 },
+		{ name: 'Little Caesars Large', size: '14', price: 6.99 },
 		{ name: 'Costco', size: '18', price: 9.95 }
 	]);
 
 	const squareInchPerPerson = 40;
+
+	type Pizza = (typeof pizzas)[number];
+	type SortKey =
+		| 'name'
+		| 'size'
+		| 'price'
+		| 'squareInches'
+		| 'pricePerSquareInch'
+		| 'servingsPerPizza'
+		| 'pricePerPerson';
+
+	let sortKey = $state<SortKey | null>(null);
+	let sortDirection = $state<'asc' | 'desc'>('asc');
+
+	function calculateSquareInches(size: string): number {
+		return Math.PI * Math.pow(+size / 2, 2);
+	}
+
+	function calculatePricePerSquareInch(price: number, size: string): number {
+		return price / calculateSquareInches(size);
+	}
+
+	function calculateServingsPerPizza(size: string): number {
+		return calculateSquareInches(size) / squareInchPerPerson;
+	}
+
+	function calculatePricePerPerson(price: number, size: string): number {
+		return price / calculateServingsPerPizza(size);
+	}
+
+	function getValue(pizza: Pizza, key: SortKey): number | string {
+		switch (key) {
+			case 'name':
+				return pizza.name.toLowerCase();
+			case 'size':
+				return +pizza.size;
+			case 'price':
+				return pizza.price;
+			case 'squareInches':
+				return calculateSquareInches(pizza.size);
+			case 'pricePerSquareInch':
+				return calculatePricePerSquareInch(pizza.price, pizza.size);
+			case 'servingsPerPizza':
+				return calculateServingsPerPizza(pizza.size);
+			case 'pricePerPerson':
+				return calculatePricePerPerson(pizza.price, pizza.size);
+			default:
+				return 0;
+		}
+	}
+
+	const sortedPizzas = $derived.by(() => {
+		if (!sortKey) return pizzas;
+
+		return [...pizzas].sort((a, b) => {
+			const aVal = sortKey ? getValue(a, sortKey) : 0;
+			const bVal = sortKey ? getValue(b, sortKey) : 0;
+
+			if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+			if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+			return 0;
+		});
+	});
+
+	function handleSort(key: SortKey) {
+		if (sortKey === key) {
+			sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+		} else {
+			sortKey = key;
+			sortDirection = 'asc';
+		}
+	}
 </script>
 
 <svelte:head>
@@ -26,102 +102,241 @@
 	</p>
 </div>
 
-<div class="grid gap-y-8 gap-x-4 xl:gap-8 py-8 w-full lg:grid-cols-3 mt-6 text-amber-900">
-	{#each pizzas as pizza, index (index)}
-		<div class="flex items-center p-3 bg-amber-500/30 rounded-xl backdrop-blur-sm shadow-xs">
-			<div class="grid gap-2 py-8 px-8 w-full bg-white/80 rounded-lg">
-				<div>
-					<label for="name-{index}" class="sr-only">Name</label>
-					<input
-						id="name-{index}"
-						class="w-full border-amber-900/60 rounded-md"
-						bind:value={pizza.name}
-						name="name"
-						placeholder="Name"
-						type="text"
-					/>
-				</div>
-				<div class="grid gap-y-2 gap-x-6 w-full lg:grid-cols-2">
-					<div>
-						<label for="size-{index}" class="sr-only">Size</label>
-						<select
-							id="size-{index}"
-							class="w-full border-amber-900/60 rounded-md"
-							name="size"
-							bind:value={pizza.size}
-						>
-							{#each sizes as size (size)}
-								<option value={size}>{size}&ldquo;</option>
-							{/each}
-						</select>
-					</div>
-					<div class="flex gap-1 items-center">
-						<span class="font-light text-amber-900/60" style="scale: 1 1.35">$</span>
-						<label for="price-{index}" class="sr-only">Price</label>
-						<input
-							id="price-{index}"
-							bind:value={pizza.price}
-							class="w-full border-amber-900/60 rounded-md"
-							min="0"
-							name="price"
-							placeholder="Price"
-							step="0.01"
-							type="number"
-						/>
-					</div>
-				</div>
-
-				<hr class="my-4" />
-
-				<div>
-					in<sup>2</sup>: {(Math.PI * Math.pow(+pizza.size / 2, 2)).toFixed(2)}
-				</div>
-				<div>
-					$ / in<sup>2</sup>: ${(+pizza.price / (Math.PI * Math.pow(+pizza.size / 2, 2))).toFixed(
-						2
-					)}
-				</div>
-				<div>
-					Servings / pizza: {(
-						(Math.PI * Math.pow(+pizza.size / 2, 2)) /
-						squareInchPerPerson
-					).toFixed(2)}
-				</div>
-				<div>
-					$ / person: ${(
-						pizza.price /
-						((Math.PI * Math.pow(+pizza.size / 2, 2)) / squareInchPerPerson)
-					).toFixed(2)}
-				</div>
-				<div class="flex justify-end">
-					<button
-						class="py-2 px-4 -mr-4 -mb-4 text-red-700 rounded-sm transition-colors hover:text-white hover:bg-red-600"
-						onclick={() => {
-							pizzas = pizzas.filter((p) => p !== pizza);
-						}}
+<div class="py-8 mt-6">
+	<div class="overflow-x-auto bg-white/20 rounded-xl shadow-lg backdrop-blur-lg">
+		<table class="w-full border-collapse">
+			<thead class="bg-amber-500/30">
+				<tr>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
 					>
-						Delete
-					</button>
-				</div>
-			</div>
-		</div>
-	{/each}
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('name')}
+						>
+							Name
+							<span class="text-xs">
+								{#if sortKey === 'name'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('size')}
+						>
+							Size (inches)
+							<span class="text-xs">
+								{#if sortKey === 'size'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('price')}
+						>
+							Price
+							<span class="text-xs">
+								{#if sortKey === 'price'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('squareInches')}
+						>
+							Square Inches
+							<span class="text-xs">
+								{#if sortKey === 'squareInches'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('pricePerSquareInch')}
+						>
+							$ / in²
+							<span class="text-xs">
+								{#if sortKey === 'pricePerSquareInch'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('servingsPerPizza')}
+						>
+							Servings / Pizza
+							<span class="text-xs">
+								{#if sortKey === 'servingsPerPizza'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th
+						class="px-4 py-3 text-left text-amber-900 font-semibold border-b-2 border-amber-900/20"
+					>
+						<button
+							class="flex items-center gap-2 hover:text-amber-700 transition-colors cursor-pointer select-none text-left"
+							onclick={() => handleSort('pricePerPerson')}
+						>
+							$ / Person
+							<span class="text-xs">
+								{#if sortKey === 'pricePerPerson'}
+									{#if sortDirection === 'asc'}
+										<IconArrowUp size="16" />
+									{:else}
+										<IconArrowDown size="16" />
+									{/if}
+								{:else}
+									<IconArrowsSort size="18" class="opacity-20" />
+								{/if}
+							</span>
+						</button>
+					</th>
+					<th class="px-4 py-3 text-amber-900 font-semibold border-b-2 border-amber-900/20">
+						Actions
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{#each sortedPizzas as pizza, index (pizza)}
+					{@const originalIndex = pizzas.indexOf(pizza)}
+					<tr
+						class={clsx(
+							'border-b border-amber-900/10 transition-colors',
+							!pizzas[originalIndex].price
+								? 'bg-red-500/30 hover:bg-red-500/20'
+								: 'hover:bg-white/40'
+						)}
+					>
+						<td class="px-4 py-3 text-amber-900">
+							<input
+								class="w-full border-amber-900/60 rounded-md"
+								bind:value={pizzas[originalIndex].name}
+								placeholder="Name"
+								type="text"
+							/>
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							<select
+								class="w-full border-amber-900/60 rounded-md"
+								bind:value={pizzas[originalIndex].size}
+							>
+								{#each sizes as size (size)}
+									<option value={size}>{size}&ldquo;</option>
+								{/each}
+							</select>
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							<div class="flex gap-1 items-center">
+								<span class="font-light text-amber-900/60">$</span>
+								<input
+									bind:value={pizzas[originalIndex].price}
+									class="w-full border-amber-900/60 rounded-md pl-2"
+									min="0"
+									placeholder="Price"
+									step="0.01"
+									type="number"
+								/>
+							</div>
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							{calculateSquareInches(pizza.size).toFixed(2)}
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							<DollarSign />{calculatePricePerSquareInch(pizza.price, pizza.size).toFixed(2)}
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							{calculateServingsPerPizza(pizza.size).toFixed(2)}
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							<DollarSign />{calculatePricePerPerson(pizza.price, pizza.size).toFixed(2)}
+						</td>
+						<td class="px-4 py-3 text-amber-900">
+							<button
+								class="py-2 px-4 text-red-800 rounded-lg transition-colors hover:text-white hover:bg-red-900/90"
+								onclick={() => {
+									pizzas = pizzas.filter((p) => p !== pizza);
+								}}
+							>
+								Delete
+							</button>
+						</td>
+					</tr>
+				{/each}
+			</tbody>
+		</table>
+	</div>
 
-	<div
-		class="flex items-center p-3 bg-amber-500/30 rounded-xl backdrop-blur-sm shadow-xs justify-center min-h-[356px] relative hover:bg-amber-500/40 transition-colors"
-	>
+	<div class="mt-6">
 		<button
-			class="size-24 rounded-full bg-red-900/90 flex justify-center items-center p-8 text-3xl lg:text-7xl font-light text-red-100 transition-colors hover:bg-red-800 group"
+			class="py-2 px-6 bg-red-900/90 text-red-100 rounded-lg transition-colors hover:bg-red-800 font-medium"
 			onclick={() => {
 				pizzas = [...pizzas, { name: '', size: '14', price: 0 }];
 			}}
 		>
-			<span
-				class="-translate-y-1 transition-transform group-hover:rotate-360 group-hover:-translate-y-1.5 group-hover:scale-110"
-				>+</span
-			>
-			<span class="sr-only">Add pizza</span>
-			<span class="absolute inset-0"></span>
+			+ Add Pizza
 		</button>
 	</div>
 </div>
