@@ -260,7 +260,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				{#each sortedPizzas as pizza, index (pizza)}
+				{#each sortedPizzas as pizza (pizza)}
 					{@const originalIndex = pizzas.indexOf(pizza)}
 					<tr
 						class={clsx(
