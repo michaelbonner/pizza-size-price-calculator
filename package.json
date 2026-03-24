@@ -47,6 +47,7 @@
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^6.3.3",
 		"@tabler/icons-svelte": "^3.40.0",
+		"@tailwindcss/vite": "^4.2.2",
 		"clsx": "^2.1.1"
 	}
 }
