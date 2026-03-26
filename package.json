@@ -40,13 +40,13 @@
 		"tslib": "^2.8.1",
 		"typescript": "^6.0.2",
 		"typescript-eslint": "^8.57.2",
-		"vite": "^8.0.2",
-		"vitest": "^4.1.1"
+		"vite": "^8.0.3",
+		"vitest": "^4.1.2"
 	},
 	"type": "module",
 	"dependencies": {
 		"@sveltejs/adapter-vercel": "^6.3.3",
-		"@tabler/icons-svelte": "^3.40.0",
+		"@tabler/icons-svelte": "^3.41.0",
 		"@tailwindcss/vite": "^4.2.2",
 		"clsx": "^2.1.1"
 	}
