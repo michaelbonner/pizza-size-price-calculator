@@ -23,7 +23,7 @@
 		| 'servingsPerPizza'
 		| 'pricePerPerson';
 
-	let sortKey = $state<SortKey | null>(null);
+	let sortKey = $state<SortKey>('pricePerPerson');
 	let sortDirection = $state<'asc' | 'desc'>('asc');
 
 	function calculateSquareInches(size: string): number {
