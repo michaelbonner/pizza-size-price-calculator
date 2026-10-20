@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { IconArrowLeft, IconHome, IconPizzaOff } from '@tabler/icons-svelte';
 
@@ -39,7 +40,7 @@
 
 <div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
 	<a
-		href="/"
+		href={resolve('/')}
 		class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-red-900/90 px-6 py-3 text-sm font-semibold text-red-100 transition-colors hover:bg-red-800 sm:w-auto"
 	>
 		<IconHome size={18} />

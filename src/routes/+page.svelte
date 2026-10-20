@@ -1,5 +1,5 @@
 <script lang="ts">
-	import DollarSign from '$lib/components/DollarSign.svelte';
+	import DollarSign from '#lib/components/DollarSign.svelte';
 	import { IconArrowDown, IconArrowsSort, IconArrowUp } from '@tabler/icons-svelte';
 	import { clsx } from 'clsx';
 
