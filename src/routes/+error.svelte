@@ -17,6 +17,7 @@
 	<title
 		>{isNotFound ? 'Page Not Found' : `Error ${page.status}`} | Pizza Size Price Calculator</title
 	>
+	<meta name="robots" content="noindex" />
 </svelte:head>
 
 <div class="prose prose-lg lg:mx-auto lg:py-16 text-center">
