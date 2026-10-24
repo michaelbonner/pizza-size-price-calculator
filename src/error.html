@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="robots" content="noindex" />
+		<meta name="color-scheme" content="light only" />
+		<meta name="theme-color" content="#FEF3C6" />
+		<link rel="icon" href="/favicon.png" />
+		<title>Error %sveltekit.status% | Pizza Size Price Calculator</title>
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+			}
+			body {
+				margin: 0;
+				min-height: 100vh;
+				display: flex;
+				flex-direction: column;
+				background-color: #fef3c6;
+				background-image: url('/pizza-bg.svg');
+				background-size: cover;
+				background-position: center;
+				background-repeat: no-repeat;
+				color: #7b3306;
+				font-family: ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+				-webkit-font-smoothing: antialiased;
+			}
+			main {
+				flex: 1;
+				padding: 2rem;
+				text-align: center;
+			}
+			.inner {
+				max-width: 40rem;
+				margin: 0 auto;
+				padding: 2rem 0;
+			}
+			.icon {
+				margin: 0 auto 1.5rem;
+				display: flex;
+				width: 5rem;
+				height: 5rem;
+				align-items: center;
+				justify-content: center;
+				border-radius: 9999px;
+				background: rgb(254 154 0 / 0.3);
+				box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+			}
+			.status {
+				margin: 0;
+				font-size: 4.5rem;
+				line-height: 1;
+				font-weight: 700;
+				letter-spacing: -0.025em;
+				color: #973c00;
+			}
+			h1 {
+				margin: 1rem 0 0;
+				font-size: 2.25rem;
+				line-height: 1.15;
+				font-weight: 800;
+				text-shadow: 0 1px 2px #ffb900;
+			}
+			p.lede {
+				margin: 1rem auto 0;
+				max-width: 28rem;
+				font-size: 1.125rem;
+				line-height: 1.75;
+				color: #973c00;
+			}
+			.actions {
+				margin-top: 2rem;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				gap: 0.75rem;
+			}
+			.btn {
+				display: inline-flex;
+				width: 100%;
+				align-items: center;
+				justify-content: center;
+				border-radius: 0.5rem;
+				padding: 0.75rem 1.5rem;
+				font: inherit;
+				font-size: 0.875rem;
+				font-weight: 600;
+				line-height: 1.25rem;
+				text-decoration: none;
+				cursor: pointer;
+				transition: background-color 150ms ease;
+			}
+			.btn-primary {
+				border: 1px solid transparent;
+				background: rgb(130 24 26 / 0.9);
+				color: #ffe2e2;
+			}
+			.btn-primary:hover {
+				background: #9f0712;
+			}
+			.btn-secondary {
+				border: 1px solid rgb(123 51 6 / 0.6);
+				background: transparent;
+				color: #7b3306;
+			}
+			.btn-secondary:hover {
+				background: rgb(254 154 0 / 0.3);
+			}
+			.btn:focus-visible {
+				outline: 2px solid #7b3306;
+				outline-offset: 2px;
+			}
+			footer {
+				margin: 2rem;
+				text-align: center;
+				color: #973c00;
+			}
+			footer a {
+				color: inherit;
+			}
+			@media (min-width: 640px) {
+				.actions {
+					flex-direction: row;
+					justify-content: center;
+				}
+				.btn {
+					width: auto;
+				}
+			}
+			@media (min-width: 1024px) {
+				.inner {
+					padding: 4rem 0 2rem;
+				}
+				h1 {
+					font-size: 3rem;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<main>
+			<div class="inner">
+				<div class="icon">
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						width="40"
+						height="40"
+						viewBox="0 0 24 24"
+						fill="none"
+						stroke="currentColor"
+						stroke-width="1.5"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						aria-hidden="true"
+					>
+						<path
+							d="M10.313 6.277l1.687 -3.277l5.34 10.376m2.477 6.463a19.093 19.093 0 0 1 -7.817 1.661c-3.04 0 -5.952 -.714 -8.5 -1.983l5.434 -10.559"
+						/>
+						<path d="M5.38 15.866a14.94 14.94 0 0 0 6.815 1.634c1.56 0 3.105 -.24 4.582 -.713" />
+						<path d="M11 14v-.01" />
+						<path d="M3 3l18 18" />
+					</svg>
+				</div>
+				<p class="status">%sveltekit.status%</p>
+				<h1>The oven overheated</h1>
+				<p class="lede">Something went wrong on our end. Please try again in a moment.</p>
+				<div class="actions">
+					<button type="button" class="btn btn-primary" onclick="location.reload()">
+						Try again
+					</button>
+					<a class="btn btn-secondary" href="/">Back to home</a>
+				</div>
+			</div>
+		</main>
+		<footer>
+			<p>Made with 🧀 by <a href="https://michaelbonner.dev">Michael Bonner</a></p>
+		</footer>
+	</body>
+</html>
