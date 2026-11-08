@@ -11,7 +11,7 @@ test('quantity stepper updates the total price', async ({ page }) => {
 	await expect(quantity).toHaveValue('1');
 	await page.getByRole('button', { name: 'Increase quantity of Costco' }).click();
 	await expect(quantity).toHaveValue('2');
-	await expect(page.getByRole('row').filter({ has: quantity })).toContainText('19.90');
+	await expect(page.getByRole('listitem', { name: 'Costco' })).toContainText('19.90');
 	await page.getByRole('button', { name: 'Decrease quantity of Costco' }).click();
 	await expect(quantity).toHaveValue('1');
 });
