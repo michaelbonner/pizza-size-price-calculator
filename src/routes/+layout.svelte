@@ -30,12 +30,12 @@
 	<link rel="canonical" href="https://pizza.michaelbonner.dev/" />
 </svelte:head>
 
-<main class="px-8">
-	<div class="py-8 mx-auto max-w-7xl">
+<main class="px-4 sm:px-8">
+	<div class="mx-auto max-w-7xl py-8">
 		{@render children?.()}
 	</div>
 </main>
-<footer class="m-8 text-center text-amber-800">
+<footer class="m-8 text-center text-sm text-amber-900/70">
 	<p>
 		Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
 	</p>
