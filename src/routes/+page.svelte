@@ -27,6 +27,15 @@
 		return Number.isFinite(quantity) && quantity > 0 ? quantity : 0;
 	}
 
+	// Full-size pizzas stacked with a small diagonal offset (percent of the
+	// box), centered as a group. Orders above 4 still draw 4.
+	const stackOffset = 8;
+
+	function getPizzaStack(pizza: Pizza): number[] {
+		const count = Math.max(1, Math.min(4, getQuantity(pizza)));
+		return Array.from({ length: count }, (_, i) => (i - (count - 1) / 2) * stackOffset);
+	}
+
 	function setQuantity(pizza: Pizza, quantity: number) {
 		pizza.quantity = Math.max(1, Math.min(99, Math.floor(quantity) || 1));
 	}
@@ -227,7 +236,11 @@
 
 			<div class="flex gap-3 p-4 pb-4 sm:gap-4 sm:p-5">
 				<div class="relative size-20 shrink-0 sm:size-28">
-					<PizzaIllustration scale={+pizza.size / largestSize} muted={!comparable} />
+					{#each getPizzaStack(pizza) as offset, i (i)}
+						<div class="absolute inset-0 drop-shadow-sm" style:translate="{offset}% {offset}%">
+							<PizzaIllustration scale={+pizza.size / largestSize} muted={!comparable} />
+						</div>
+					{/each}
 					{#if getQuantity(pizza) > 1}
 						<span
 							class="absolute right-0 bottom-0 rounded-full bg-amber-950 px-2 py-0.5 text-xs font-bold text-amber-50 tabular-nums"
