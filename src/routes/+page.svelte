@@ -12,7 +12,7 @@
 	];
 
 	let pizzas = $state([
-		{ name: 'Dominos Large', size: '12', price: 10.99, quantity: 1 },
+		{ name: 'Dominos Large', size: '14', price: 10.99, quantity: 1 },
 		{ name: 'Dominos Medium', size: '12', price: 6.99, quantity: 2 },
 		{ name: 'Little Caesars Large', size: '14', price: 6.99, quantity: 1 },
 		{ name: 'Costco', size: '18', price: 9.95, quantity: 1 }
