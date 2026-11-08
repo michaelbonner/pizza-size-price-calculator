@@ -114,12 +114,31 @@
 				outline-offset: 2px;
 			}
 			footer {
-				margin: 2rem;
+				padding: 0 1rem 2.5rem;
+			}
+			footer p {
+				margin: 0 auto;
+				width: fit-content;
+				max-width: 100%;
+				border-radius: 1rem;
+				background: rgb(255 255 255 / 0.7);
+				padding: 0.75rem 1.25rem;
 				text-align: center;
-				color: #973c00;
+				font-size: 0.875rem;
+				color: #461901;
+				box-shadow:
+					0 1px 2px rgb(0 0 0 / 0.05),
+					0 0 0 1px rgb(123 51 6 / 0.1);
+				backdrop-filter: blur(16px);
 			}
 			footer a {
 				color: inherit;
+				font-weight: 600;
+				text-decoration-color: rgb(123 51 6 / 0.3);
+				text-underline-offset: 2px;
+			}
+			footer a:hover {
+				text-decoration-color: #7b3306;
 			}
 			@media (min-width: 640px) {
 				.actions {
@@ -176,7 +195,10 @@
 			</div>
 		</main>
 		<footer>
-			<p>Made with 🧀 by <a href="https://michaelbonner.dev">Michael Bonner</a></p>
+			<p>
+				Made with 🧀 by <a href="https://michaelbonner.dev">Michael Bonner</a> at
+				<a href="https://bootpackdigital.com">Bootpack Digital</a>
+			</p>
 		</footer>
 	</body>
 </html>

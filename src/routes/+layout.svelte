@@ -35,8 +35,19 @@
 		{@render children?.()}
 	</div>
 </main>
-<footer class="m-8 text-center text-sm text-amber-900/70">
-	<p>
-		Made with 🧀 by <a class="underline" href="https://michaelbonner.dev">Michael Bonner</a>
+<footer class="px-4 pb-10 sm:px-8">
+	<p
+		class="mx-auto w-fit max-w-full rounded-2xl bg-white/70 px-5 py-3 text-center text-sm text-pretty text-amber-950 shadow-sm ring-1 ring-amber-900/10 backdrop-blur-lg sm:text-base"
+	>
+		Made with 🧀 by
+		<a
+			class="font-semibold underline decoration-amber-900/30 underline-offset-2 hover:decoration-amber-900"
+			href="https://michaelbonner.dev">Michael Bonner</a
+		>
+		at
+		<a
+			class="font-semibold underline decoration-amber-900/30 underline-offset-2 hover:decoration-amber-900"
+			href="https://bootpackdigital.com">Bootpack Digital</a
+		>
 	</p>
 </footer>
