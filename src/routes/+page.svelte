@@ -34,6 +34,10 @@
 		return +pizza.price > 0;
 	}
 
+	function isComparable(pizza: Pizza): boolean {
+		return hasPrice(pizza) && getQuantity(pizza) > 0;
+	}
+
 	function calculateSquareInches(size: string): number {
 		return Math.PI * Math.pow(+size / 2, 2);
 	}
@@ -66,15 +70,30 @@
 		return `${(value * 100).toFixed(1)}¢`;
 	}
 
-	// Pizzas with a price, cheapest per square inch first.
+	// Pizzas with a price and quantity, cheapest per square inch first.
 	const ranked = $derived(
 		pizzas
-			.filter(hasPrice)
+			.filter(isComparable)
 			.toSorted((a, b) => calculatePricePerSquareInch(a) - calculatePricePerSquareInch(b))
 	);
 
 	const best = $derived(ranked[0]);
 	const worst = $derived(ranked.length > 1 ? ranked[ranked.length - 1] : undefined);
+
+	// Equal unit prices share the win, so compare with a tolerance for float noise.
+	function isTiedWithBest(pizza: Pizza): boolean {
+		if (!best || !isComparable(pizza)) return false;
+		const bestPrice = calculatePricePerSquareInch(best);
+		return Math.abs(calculatePricePerSquareInch(pizza) - bestPrice) <= bestPrice * 1e-9;
+	}
+
+	const bestDeals = $derived(ranked.filter(isTiedWithBest));
+	const allTied = $derived(ranked.length > 1 && bestDeals.length === ranked.length);
+
+	function formatNames(list: Pizza[]): string {
+		const names = list.map((p) => p.name || 'Unnamed pizza');
+		return names.length > 1 ? `${names.slice(0, -1).join(', ')} & ${names.at(-1)}` : names[0];
+	}
 
 	const largestSize = $derived(Math.max(...pizzas.map((p) => +p.size), 1));
 
@@ -109,12 +128,22 @@
 	aria-live="polite"
 	class="mx-auto mb-8 max-w-3xl rounded-2xl bg-amber-950 px-6 py-5 text-amber-50 shadow-xl shadow-amber-900/20 sm:px-8"
 >
-	{#if best && worst}
+	{#if best && allTied}
 		<p class="flex items-center gap-2 text-sm font-semibold tracking-wide text-amber-300 uppercase">
-			<IconTrophy size={18} /> Best deal
+			<IconTrophy size={18} /> It's a tie
 		</p>
 		<p class="mt-1 text-2xl font-bold text-balance sm:text-3xl">
-			{best.name || 'Unnamed pizza'}
+			Every pizza costs {formatCents(calculatePricePerSquareInch(best))}
+			<span class="font-normal text-amber-200/80">per in²</span>
+		</p>
+		<p class="mt-2 text-amber-100/80">Pick whichever one you like best.</p>
+	{:else if best && worst}
+		<p class="flex items-center gap-2 text-sm font-semibold tracking-wide text-amber-300 uppercase">
+			<IconTrophy size={18} />
+			{bestDeals.length > 1 ? 'Best deals' : 'Best deal'}
+		</p>
+		<p class="mt-1 text-2xl font-bold text-balance sm:text-3xl">
+			{formatNames(bestDeals)}
 			<span class="font-normal text-amber-200/80">at</span>
 			{formatCents(calculatePricePerSquareInch(best))}
 			<span class="font-normal text-amber-200/80">per in²</span>
@@ -173,8 +202,9 @@
 
 <ul class="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
 	{#each pizzas as pizza, index (pizza)}
-		{@const isBest = ranked.length > 1 && pizza === best}
+		{@const isBest = ranked.length > 1 && !allTied && isTiedWithBest(pizza)}
 		{@const priced = hasPrice(pizza)}
+		{@const comparable = isComparable(pizza)}
 		{@const label = pizza.name || 'pizza'}
 		<li
 			aria-label={pizza.name || `Pizza ${index + 1}`}
@@ -183,7 +213,7 @@
 				isBest
 					? 'shadow-amber-600/30 ring-2 ring-amber-500'
 					: 'shadow-amber-900/10 ring-amber-900/10',
-				!priced && 'ring-2 ring-red-400'
+				!comparable && 'ring-2 ring-red-400'
 			)}
 		>
 			{#if isBest}
@@ -196,7 +226,7 @@
 
 			<div class="flex gap-3 p-4 pb-4 sm:gap-4 sm:p-5">
 				<div class="relative size-20 shrink-0 sm:size-28">
-					<PizzaIllustration scale={+pizza.size / largestSize} muted={!priced} />
+					<PizzaIllustration scale={+pizza.size / largestSize} muted={!comparable} />
 					{#if getQuantity(pizza) > 1}
 						<span
 							class="absolute right-0 bottom-0 rounded-full bg-amber-950 px-2 py-0.5 text-xs font-bold text-amber-50 tabular-nums"
@@ -296,7 +326,7 @@
 			</div>
 
 			<div class="mt-auto rounded-b-2xl border-t border-amber-900/10 bg-amber-50/70 px-5 py-4">
-				{#if priced}
+				{#if comparable}
 					<div class="flex items-baseline justify-between gap-4">
 						<div>
 							<p class="text-xs font-medium text-amber-900/70">Per square inch</p>
@@ -311,7 +341,7 @@
 							</p>
 						</div>
 					</div>
-					{#if ranked.length > 1 && !isBest}
+					{#if ranked.length > 1 && !allTied && !isBest}
 						<p class="mt-1 text-sm font-medium text-red-800">
 							{percentMoreThanBest(pizza).toFixed(0)}% more than the best deal
 						</p>
@@ -340,7 +370,9 @@
 					</dl>
 				{:else}
 					<p class="py-6 text-center text-sm font-medium text-red-800">
-						Enter a price to see how this pizza stacks up.
+						{priced
+							? 'Set a quantity to see how this pizza stacks up.'
+							: 'Enter a price to see how this pizza stacks up.'}
 					</p>
 				{/if}
 			</div>
