@@ -254,10 +254,6 @@
 	}
 </script>
 
-<svelte:head>
-	<title>Pizza Size Price Calculator</title>
-</svelte:head>
-
 <header class="mx-auto max-w-3xl pt-4 pb-10 sm:text-center lg:pt-12">
 	<h1
 		class="text-4xl font-black tracking-tight text-balance text-amber-950 text-shadow-amber-300 text-shadow-sm sm:text-5xl lg:text-6xl"
