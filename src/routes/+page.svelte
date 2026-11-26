@@ -506,8 +506,9 @@
 							<div class="relative w-24">
 								<span
 									class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-amber-900/50"
-									>$</span
 								>
+									$
+								</span>
 								<input
 									bind:value={pizza.price}
 									aria-label="Price of {label}"
@@ -651,8 +652,9 @@
 								<div class="relative">
 									<span
 										class="pointer-events-none absolute inset-y-0 left-3 flex items-center text-amber-900/50"
-										>$</span
 									>
+										$
+									</span>
 									<input
 										bind:value={pizza.price}
 										class={clsx(
