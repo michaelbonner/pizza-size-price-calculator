@@ -93,12 +93,16 @@
 		Made with 🧀 by
 		<a
 			class="font-semibold underline decoration-amber-900/30 underline-offset-2 hover:decoration-amber-900"
-			href="https://michaelbonner.dev">Michael Bonner</a
+			href="https://michaelbonner.dev"
 		>
+			Michael Bonner
+		</a>
 		at
 		<a
 			class="font-semibold underline decoration-amber-900/30 underline-offset-2 hover:decoration-amber-900"
-			href="https://bootpackdigital.com">Bootpack Digital</a
+			href="https://bootpackdigital.com"
 		>
+			Bootpack Digital
+		</a>
 	</p>
 </footer>
